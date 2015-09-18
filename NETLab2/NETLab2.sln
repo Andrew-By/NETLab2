@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NETLab2.TCPGenerator.Shared", "NETLab2.TCPGenerator.Shared\NETLab2.TCPGenerator.Shared.shproj", "{FD3A1D3A-25DF-4A36-B625-A29DADEAC718}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NETLab2.Sniffer.Shared", "NETLab2.Sniffer.Shared\NETLab2.Sniffer.Shared.shproj", "{58D83864-18DA-4656-B1B8-559A305EC200}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NETLab2.TCPGenerator.WPF", "NETLab2.TCPGenerator.WPF\NETLab2.TCPGenerator.WPF.csproj", "{2C2A313A-37C6-4442-AA4C-FBA45CE5202B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NETLab2.Sniffer.WPF", "NETLab2.Sniffer.WPF\NETLab2.Sniffer.WPF.csproj", "{0C80E326-594D-4A41-A48B-F8B8AB2B45A2}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		NETLab2.Sniffer.Shared\NETLab2.Sniffer.Shared.projitems*{0c80e326-594d-4a41-a48b-f8b8ab2b45a2}*SharedItemsImports = 4
+		NETLab2.TCPGenerator.Shared\NETLab2.TCPGenerator.Shared.projitems*{2c2a313a-37c6-4442-aa4c-fba45ce5202b}*SharedItemsImports = 4
+		NETLab2.Sniffer.Shared\NETLab2.Sniffer.Shared.projitems*{58d83864-18da-4656-b1b8-559a305ec200}*SharedItemsImports = 13
+		NETLab2.TCPGenerator.Shared\NETLab2.TCPGenerator.Shared.projitems*{fd3a1d3a-25df-4a36-b625-a29dadeac718}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C2A313A-37C6-4442-AA4C-FBA45CE5202B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C2A313A-37C6-4442-AA4C-FBA45CE5202B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C2A313A-37C6-4442-AA4C-FBA45CE5202B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C2A313A-37C6-4442-AA4C-FBA45CE5202B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C80E326-594D-4A41-A48B-F8B8AB2B45A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C80E326-594D-4A41-A48B-F8B8AB2B45A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C80E326-594D-4A41-A48B-F8B8AB2B45A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C80E326-594D-4A41-A48B-F8B8AB2B45A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://ndrew-by.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = NETLab2.TCPGenerator.Shared\\NETLab2.TCPGenerator.Shared.shproj
+		SccProjectName1 = NETLab2.TCPGenerator.Shared
+		SccLocalPath1 = NETLab2.TCPGenerator.Shared
+		SccProjectUniqueName2 = NETLab2.TCPGenerator.Shared\\NETLab2.TCPGenerator.Shared.projitems
+		SccProjectTopLevelParentUniqueName2 = NETLab2.TCPGenerator.Shared\\NETLab2.TCPGenerator.Shared.shproj
+		SccProjectName2 = NETLab2.TCPGenerator.Shared
+		SccLocalPath2 = NETLab2.TCPGenerator.Shared
+		SccProjectUniqueName3 = NETLab2.Sniffer.Shared\\NETLab2.Sniffer.Shared.shproj
+		SccProjectName3 = NETLab2.Sniffer.Shared
+		SccLocalPath3 = NETLab2.Sniffer.Shared
+		SccProjectUniqueName4 = NETLab2.Sniffer.Shared\\NETLab2.Sniffer.Shared.projitems
+		SccProjectTopLevelParentUniqueName4 = NETLab2.Sniffer.Shared\\NETLab2.Sniffer.Shared.shproj
+		SccProjectName4 = NETLab2.Sniffer.Shared
+		SccLocalPath4 = NETLab2.Sniffer.Shared
+		SccProjectUniqueName5 = NETLab2.TCPGenerator.WPF\\NETLab2.TCPGenerator.WPF.csproj
+		SccProjectName5 = NETLab2.TCPGenerator.WPF
+		SccLocalPath5 = NETLab2.TCPGenerator.WPF
+		SccProjectUniqueName6 = NETLab2.Sniffer.WPF\\NETLab2.Sniffer.WPF.csproj
+		SccProjectName6 = NETLab2.Sniffer.WPF
+		SccLocalPath6 = NETLab2.Sniffer.WPF
+	EndGlobalSection
+EndGlobal
