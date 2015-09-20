@@ -15,6 +15,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>NETLab2.TCPGenerator.Shared</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-  </ItemGroup>
 </Project>
