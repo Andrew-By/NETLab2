@@ -24,5 +24,15 @@ namespace NETLab2.TCPGenerator.WPF
         {
             InitializeComponent();
         }
+
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SendButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
