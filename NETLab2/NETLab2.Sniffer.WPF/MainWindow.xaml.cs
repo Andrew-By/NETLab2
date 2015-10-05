@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NETLab2.Sniffer.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +22,19 @@ namespace NETLab2.Sniffer.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        SnifferSocket socket;
         public MainWindow()
         {
             InitializeComponent();
+
+            socket = new SnifferSocket(new IPEndPoint(IPAddress.Any, 0));
+            App.Current.Exit += Current_Exit;
+        }
+
+        private void Current_Exit(object sender, ExitEventArgs e)
+        {
+            if (socket != null)
+                socket.Close();
         }
     }
 }
