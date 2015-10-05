@@ -14,6 +14,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label x:Name="EnterDataLabel" Content="Введите данные в поля для создания TCP пакета" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <Grid Grid.Row="1">
@@ -33,54 +34,57 @@
             <Label x:Name="SenderLabel" Content="Отправитель" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center"/>
             <Label x:Name="ReceiverLabel" Content="Получатель" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"/>
             <Label x:Name="MessageLabel" Content="Сообщение" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center"/>
-            <TextBox x:Name="SenderAddressBox" MaxLength="15" Width="95" Height="20" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="SenderAddressBox" MaxLength="15" Width="95" Height="20" Grid.Column="1" Grid.Row="1" IsEnabled="False"/>
             <TextBox x:Name="SenderPortBox" MaxLength="5" Width="40" Height="20" Grid.Column="2" Grid.Row="1"/>
             <TextBox x:Name="ReceiverAddressBox" MaxLength="15" Width="95" Height="20" Grid.Column="1" Grid.Row="2"/>
             <TextBox x:Name="ReceiverPortBox" MaxLength="5" Width="40" Height="20" Grid.Column="2" Grid.Row="2"/>
-            <TextBox x:Name="MessageBox" Height="46" Grid.Column="4" Grid.Row="1" Grid.RowSpan="2"/>
+            <TextBox x:Name="Message" Height="46" Grid.Column="4" Grid.Row="1" Grid.RowSpan="2"/>
         </Grid>
-        <Button x:Name="GenerateButton" Content="Создать TCP пакет" Grid.Row="2" Width="150" HorizontalAlignment="Center" IsEnabled="False" Click="GenerateButton_Click" />
-        <Label x:Name="ResultLabel" Content="Результат генерации пакета TCP протокола" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label x:Name="AckLabel" Content="ACK" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="PshLabel" Content="PSH" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="RstLabel" Content="RST" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="SynLabel" Content="SYN" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="FinLabel" Content="FIN" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" />
+            <CheckBox x:Name="AckOut" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="PshOut" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="RstOut" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="SynOut" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="FinOut" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+        <Button x:Name="GenerateButton" Content="Создать TCP пакет" Grid.Row="3" Width="150" HorizontalAlignment="Center" Click="GenerateButton_Click" />
+        <Label x:Name="ResultLabel" Content="Результат генерации пакета TCP протокола" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label x:Name="SenderPortLabel" Content="Порт отправителя" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
-            <Label x:Name="ReceiverPortLabel" Content="Порт получателя" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"/>
-            <Label x:Name="SeqNLabel" Content="Номер очереди" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center"/>
-            <Label x:Name="AckNLabel" Content="Номер подтверждения" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"/>
-            <Label x:Name="WindowLabel" Content="Размер окна" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center"/>
-            <Label x:Name="CrcLabel" Content="Контрольная сумма" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center"/>
-            <TextBox x:Name="SenderPortOut" MaxLength="5" Width="40" Height="20" Grid.Column="0" Grid.Row="1"/>
-            <TextBox x:Name="ReceiverPortOut" MaxLength="5" Width="40" Height="20" Grid.Column="1" Grid.Row="1"/>
-            <TextBox x:Name="SeqNOut" Height="20" Grid.Column="2" Grid.Row="1"/>
-            <TextBox x:Name="AckNOut" Height="20" Grid.Column="0" Grid.Row="3"/>
-            <TextBox x:Name="WindowOut" Height="20" Grid.Column="1" Grid.Row="3"/>
-            <TextBox x:Name="CrcOut" Height="20" Grid.Column="2" Grid.Row="3"/>
-            <Label x:Name="UrgLabel" Content="URG" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" />
-            <Label x:Name="AckLabel" Content="ACK" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" />
-            <Label x:Name="PshLabel" Content="PSH" Grid.Column="5" Grid.Row="0" HorizontalAlignment="Center" />
-            <Label x:Name="RstLabel" Content="RST" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Center" />
-            <Label x:Name="SynLabel" Content="SYN" Grid.Column="4" Grid.Row="2" HorizontalAlignment="Center" />
-            <Label x:Name="FibLabel" Content="FIN" Grid.Column="5" Grid.Row="2" HorizontalAlignment="Center" />
-            <CheckBox x:Name="UrgOut" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="AckOut" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="PshOut" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="RstOut" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="SynOut" Grid.Column="4" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="FibOut" Grid.Column="5" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label x:Name="SeqNLabel" Content="Номер очереди" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
+            <Label x:Name="AckNLabel" Content="Номер подтверждения" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"/>
+            <Label x:Name="WindowLabel" Content="Размер окна" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center"/>
+            <Label x:Name="CrcLabel" Content="Контрольная сумма" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center"/>
+            <TextBox x:Name="SeqNOut" Height="20" Grid.Column="0" Grid.Row="1"/>
+            <TextBox x:Name="AckNOut" Height="20" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="WindowOut" Height="20" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="CrcOut" Height="20" Grid.Column="3" Grid.Row="1"/>
         </Grid>
-        <Button x:Name="SendButton" Content="Отправить TCP пакет" Grid.Row="5" Width="150" HorizontalAlignment="Center" IsEnabled="False" Click="SendButton_Click" />
+        <Button x:Name="SendButton" Content="Отправить TCP пакет" Grid.Row="6" Width="150" HorizontalAlignment="Center" IsEnabled="False" Click="SendButton_Click" />
     </Grid>
 </Window>
