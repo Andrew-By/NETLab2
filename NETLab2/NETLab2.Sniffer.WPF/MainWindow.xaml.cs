@@ -27,7 +27,7 @@ namespace NETLab2.Sniffer.WPF
         {
             InitializeComponent();
 
-            socket = new SnifferSocket(new IPEndPoint(IPAddress.Any, 0));
+            socket = new SnifferSocket(new IPEndPoint(Dns.GetHostAddresses("192.168.1.129").First(), 0));
             App.Current.Exit += Current_Exit;
         }
 
