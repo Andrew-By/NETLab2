@@ -13,7 +13,6 @@ namespace NETLab2.TCPGenerator.WPF
     {
         private TCPHeader _header;
         private Socket _socket;
-        private EndPoint _endPoint;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,19 +32,31 @@ namespace NETLab2.TCPGenerator.WPF
             try
             {
                 _socket = new Socket(AddressFamily.InterNetwork, SocketType.Raw, ProtocolType.IP);
-                _endPoint = new IPEndPoint(IPAddress.Parse(ReceiverAddressBox.Text), int.Parse(ReceiverPortBox.Text));
                 _header = new TCPHeader(SenderPortBox.Text, ReceiverPortBox.Text, AckOut.IsChecked,
                     PshOut.IsChecked, RstOut.IsChecked, SynOut.IsChecked, FinOut.IsChecked, Message.Text);
-                SendButton.IsEnabled = true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.ToString(), "Некорректные аргументы", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
+            SendButton.IsEnabled = true;
+            SeqNOut.Text = _header.SeqN.ToString();
+            AckNOut.Text = _header.AckN.ToString();
+            WindowOut.Text = _header.Win.ToString();
+            CrcOut.Text = _header.Crc.ToString();
         }
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                _header.Send(_socket, Message.Text, Message.Text.Length, ReceiverAddressBox.Text, ReceiverPortBox.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Некорректные аргументы", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace NETLab2.TCPGenerator.Shared
 {
     class Utils
     {
-        public static Byte[] SerializeMessage<T>(T msg) where T : class
+        public static Byte[] SerializeMessage<T>(T msg) where T : struct
         {
             int objsize = Marshal.SizeOf(typeof(T));
             Byte[] ret = new Byte[objsize];
@@ -14,6 +16,16 @@ namespace NETLab2.TCPGenerator.Shared
             Marshal.Copy(buff, ret, 0, objsize);
             Marshal.FreeHGlobal(buff);
             return ret;
+        }
+
+        public static byte[] ObjectToByteArray(Object obj)
+        {
+            if (obj == null)
+                return null;
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, obj);
+            return ms.ToArray();
         }
     }
 }
