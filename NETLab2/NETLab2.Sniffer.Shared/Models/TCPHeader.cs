@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Text;
 
-namespace NETLab2.Sniffer.Shared
+namespace NETLab2.Sniffer.Shared.Models
 {
     public class TCPHeader
     {
@@ -19,7 +17,7 @@ namespace NETLab2.Sniffer.Shared
         private short sChecksum = 555;                 //Шестнадцать битов для контрольной суммы
                                                        //(может иметь отрицательное значение)
         private ushort usUrgentPointer;           //Шестнадцать битов для указателя срочности
-        //Конец полей заголовков TCP пакета
+        //Конец заголовка TCP пакета
 
         private byte byHeaderLength;            //Длиина заголовка
         private ushort usMessageLength;           //Длина передаваемых данных

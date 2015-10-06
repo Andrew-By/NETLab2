@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 
-namespace NETLab2.Sniffer.Shared
+namespace NETLab2.Sniffer.Shared.Models
 {
     public class IPHeader
     {
@@ -19,7 +19,7 @@ namespace NETLab2.Sniffer.Shared
                                                   //(может иметь отрицательные значения)
         private uint uiSourceIPAddress;          //Тридцать два бита IP адреса источника
         private uint uiDestinationIPAddress;     //Тридцать два бита IP адреса назначения
-                                                 //End IP Header fields
+                                                 //Конец IP заголовка
 
         private byte byHeaderLength;             //Длина заголовка
         private byte[] byIPData = new byte[4096];  //Данные
