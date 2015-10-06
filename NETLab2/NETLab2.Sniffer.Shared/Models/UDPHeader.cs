@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
 
-namespace NETLab2.Sniffer.Shared
+namespace NETLab2.Sniffer.Shared.Models
 {
     public class UDPHeader
     {
@@ -14,7 +12,7 @@ namespace NETLab2.Sniffer.Shared
         private ushort usLength;                //Длина UDP заголовка
         private short sChecksum;                //Шестнадцать битов контрольной суммы
                                                 //(может иметь отрицательное значение)              
-                                                //Конец полей заголовка UDP
+                                                //Конец заголовка UDP
 
         private byte[] byUDPData = new byte[4096];  //Данные UDP пакета
 

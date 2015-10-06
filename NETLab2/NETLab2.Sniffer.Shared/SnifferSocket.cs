@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NETLab2.Sniffer.Shared.Models;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +14,7 @@ namespace NETLab2.Sniffer.Shared
         Unknown = -1
     };
 
-    class SnifferSocket
+    public class SnifferSocket
     {
         private const int RECEIVE_TIMEOUT = 5000;
         private const int BUFFER_SIZE = 2048;
@@ -44,14 +41,16 @@ namespace NETLab2.Sniffer.Shared
         private void Listen(CancellationToken cs)
         {
             byte[] Buffer = new byte[BUFFER_SIZE];
-            while(!cs.IsCancellationRequested)
+            int received = 0;
+            while (!cs.IsCancellationRequested)
             {
                 try
                 {
-                    int received = _socket.Receive(Buffer, SocketFlags.None);
+                    received = _socket.Receive(Buffer, SocketFlags.None);
                     Debug.WriteLine("Получено {0} байт", received);
                 }
                 catch { }
+                IPHeader ipHeader = new IPHeader(Buffer, received);
             }
         }
 

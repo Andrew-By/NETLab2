@@ -16,9 +16,10 @@
     <Import_RootNamespace>NETLab2.Sniffer.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)IPHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\IPHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TCPHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UDPHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SnifferSocket.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TCPHeader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UDPHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Packet.cs" />
   </ItemGroup>
 </Project>
