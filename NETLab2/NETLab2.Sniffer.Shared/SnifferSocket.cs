@@ -10,6 +10,13 @@ using System.Threading.Tasks;
 
 namespace NETLab2.Sniffer.Shared
 {
+    public enum Protocol
+    {
+        TCP = 6,
+        UDP = 17,
+        Unknown = -1
+    };
+
     class SnifferSocket
     {
         private const int RECEIVE_TIMEOUT = 5000;
