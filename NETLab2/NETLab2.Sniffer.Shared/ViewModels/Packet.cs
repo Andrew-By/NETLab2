@@ -5,21 +5,27 @@ using System.Text;
 
 namespace NETLab2.Sniffer.Shared.ViewModels
 {
-    public class Packet : INotifyPropertyChanged
+    public class Packet
     {
-
-
-        #region INotify
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string propertyName)
+        public Packet(string id, string dateTime, string sourceIP, string destinationIP, string protocol)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this,
-                    new PropertyChangedEventArgs(propertyName));
-            }
+            Id = id;
+            DateTime = dateTime;
+            SourceIP = sourceIP;
+            DestinationIP = destinationIP;
+            Protocol = protocol;
         }
-        #endregion
+
+        public string Id { get; set; }
+
+        public string DateTime { get; set; }
+        public string SourceIP { get; set; }
+        public string DestinationIP { get; set; }
+        public string Protocol { get; set; }
+
+        public override string ToString()
+        {
+            return Protocol;
+        }
     }
 }

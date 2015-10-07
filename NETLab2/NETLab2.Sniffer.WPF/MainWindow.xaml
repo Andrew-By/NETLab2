@@ -16,8 +16,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ComboBox Name="AdapterComboBox" Margin="5" />
+            <ComboBox Name="AdapterComboBox" Margin="5" ItemsSource="{Binding Interfaces}" SelectionChanged="AdapterComboBox_SelectionChanged" />
             <Button Name="StartStopButton" Margin="5" Width="100" Grid.Column="1" Click="StartStopButton_Click">Начать</Button>
         </Grid>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Packets}" />
     </Grid>
 </Window>

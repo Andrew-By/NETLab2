@@ -21,5 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\UDPHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SnifferSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Packet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Sniffer.cs" />
   </ItemGroup>
 </Project>
