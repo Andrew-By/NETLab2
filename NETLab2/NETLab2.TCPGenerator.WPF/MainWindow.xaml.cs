@@ -1,5 +1,6 @@
 ﻿using NETLab2.TCPGenerator.Shared;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace NETLab2.TCPGenerator.WPF
             InitializeComponent();
 
             App.Current.Exit += Current_Exit;
-            SenderAddressBox.Text = Dns.GetHostAddresses(Dns.GetHostName())[0].MapToIPv4().ToString();
+            SenderAddressBox.Text = Dns.GetHostAddresses(Dns.GetHostName()).FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork).ToString();
         }
 
         private void Current_Exit(object sender, ExitEventArgs e)
