@@ -22,33 +22,23 @@ namespace NETLab2.Sniffer.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        SnifferSocket socket;
+        Shared.ViewModels.Sniffer sniffer;
         public MainWindow()
         {
             InitializeComponent();
-
-            string strIP = null;
-            IPHostEntry HostEntry = Dns.GetHostEntry((Dns.GetHostName()));
-            if (HostEntry.AddressList.Length > 0)
-            {
-                foreach (IPAddress ip in HostEntry.AddressList)
-                {
-                    strIP = ip.ToString();
-                    AdapterComboBox.Items.Add(strIP);
-                }
-            }
-        }
-
-        private void Current_Exit(object sender, ExitEventArgs e)
-        {
-            if (socket != null)
-                socket.Close();
+            sniffer = new Shared.ViewModels.Sniffer();
+            this.DataContext = sniffer;
         }
 
         private void StartStopButton_Click(object sender, RoutedEventArgs e)
         {
-            socket = new SnifferSocket(new IPEndPoint(IPAddress.Parse(AdapterComboBox.SelectedValue.ToString()), 0));
-            App.Current.Exit += Current_Exit;
+            sniffer.Start();
+        }
+
+        private void AdapterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AdapterComboBox.SelectedIndex != -1)
+                sniffer.CurrentInterface = sniffer.Interfaces[AdapterComboBox.SelectedIndex];
         }
     }
 }

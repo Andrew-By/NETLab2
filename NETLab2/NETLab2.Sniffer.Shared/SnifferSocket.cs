@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
 namespace NETLab2.Sniffer.Shared
 {
@@ -21,6 +22,8 @@ namespace NETLab2.Sniffer.Shared
 
         private Socket _socket;
         private CancellationTokenSource _cts;
+
+        public event EventHandler<IPHeader> OnPackageReceived;
 
         public SnifferSocket(IPEndPoint endPoint)
         {
@@ -50,7 +53,7 @@ namespace NETLab2.Sniffer.Shared
                     Debug.WriteLine("Получено {0} байт", received);
                 }
                 catch { }
-                IPHeader ipHeader = new IPHeader(Buffer, received);
+                if (OnPackageReceived != null) OnPackageReceived(this, new IPHeader(Buffer, received));
             }
         }
 
