@@ -33,7 +33,7 @@ namespace NETLab2.TCPGenerator.WPF
             try
             {
                 _socket = new Socket(AddressFamily.InterNetwork, SocketType.Raw, ProtocolType.IP);
-                _header = new TCPHeader(SenderPortBox.Text, ReceiverPortBox.Text, AckOut.IsChecked,
+                _header = new TCPHeader(SenderPortBox.Text, ReceiverPortBox.Text, UrgOut.IsChecked, AckOut.IsChecked,
                     PshOut.IsChecked, RstOut.IsChecked, SynOut.IsChecked, FinOut.IsChecked, Message.Text);
             }
             catch (Exception ex)
