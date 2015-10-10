@@ -17,7 +17,8 @@ namespace NETLab2.TCPGenerator.Shared
         SYN = 0x02,
         RST = 0x04,
         PSH = 0x08,
-        ACK = 0x16
+        ACK = 0x10,
+        URG = 0x20
     }
 
     /// <summary>
@@ -104,12 +105,12 @@ namespace NETLab2.TCPGenerator.Shared
         }
 
         /// <summary>
-        /// Дополнение до 20 байт
+        /// Указатель срочности
         /// </summary>
-        ushort _padding;
-        public ushort Padding
+        ushort _urgent_pointer;
+        public ushort UrgentPointer
         {
-            set { _padding = value; }
+            set { _urgent_pointer = value; }
         }
 
         /// <summary>
@@ -122,13 +123,14 @@ namespace NETLab2.TCPGenerator.Shared
         /// </summary>
         /// <param name="src_port"></param>
         /// <param name="dest_port"></param>
+        /// <param name="urg"></param>
         /// <param name="ack"></param>
         /// <param name="psh"></param>
         /// <param name="rst"></param>
         /// <param name="syn"></param>
         /// <param name="fin"></param>
         /// <param name="data"></param>
-        public TCPHeader(string src_port, string dest_port, bool? ack, bool? psh, bool? rst, bool? syn, bool? fin, string data)
+        public TCPHeader(string src_port, string dest_port, bool? urg, bool? ack, bool? psh, bool? rst, bool? syn, bool? fin, string data)
         {
             Random rand = new Random();
             try
@@ -140,6 +142,13 @@ namespace NETLab2.TCPGenerator.Shared
             {
                 throw ex;
             }
+            if (urg == true)
+            {
+                _flags |= (byte)TcpFlags.URG;
+                _urgent_pointer = (ushort)rand.Next();
+            }
+            else
+                _urgent_pointer = 0;
             if (ack == true)
             {
                 _flags |= (byte)TcpFlags.ACK;
@@ -155,10 +164,9 @@ namespace NETLab2.TCPGenerator.Shared
                 _seq_n = (uint)rand.Next();
             if (fin == true)
                 _flags |= (byte)TcpFlags.FIN;
-            _win = (ushort)Math.Pow(2, 5 + rand.Next(6));
-            _offset = (byte)(0xF0 & ((Marshal.SizeOf(new PseudoHeader()) / 4) << 4));
+            _win = (ushort)data.Length;
+            _offset = (byte)(0xF0 & (5 << 4));
             rs_pseudo_crc(data, data.Length, _src_port, _dst_port, _offset + data.Length, 6);
-            _padding = 0;
         }
 
         /// <summary>
@@ -272,7 +280,7 @@ namespace NETLab2.TCPGenerator.Shared
             _flags = (byte)info.GetValue("Flags", typeof(byte));
             _win = (ushort)info.GetValue("Win", typeof(ushort));
             _crc = (ushort)info.GetValue("Crc", typeof(ushort));
-            _padding = (ushort)info.GetValue("Padding", typeof(ushort));
+            _urgent_pointer = (ushort)info.GetValue("UrgentPointer", typeof(ushort));
         }
 
         /// <summary>
@@ -290,7 +298,7 @@ namespace NETLab2.TCPGenerator.Shared
             info.AddValue("Flags", _flags);
             info.AddValue("Win", _win);
             info.AddValue("Crc", _crc);
-            info.AddValue("Padding", _padding);
+            info.AddValue("UrgentPointer", _urgent_pointer);
         }
     }
 }

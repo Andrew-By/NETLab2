@@ -42,26 +42,29 @@
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="6*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label x:Name="AckLabel" Content="ACK" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" />
-            <Label x:Name="PshLabel" Content="PSH" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" />
-            <Label x:Name="RstLabel" Content="RST" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" />
-            <Label x:Name="SynLabel" Content="SYN" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" />
-            <Label x:Name="FinLabel" Content="FIN" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" />
-            <CheckBox x:Name="AckOut" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="PshOut" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="RstOut" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="SynOut" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <CheckBox x:Name="FinOut" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label x:Name="UrgLabel" Content="URG" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="AckLabel" Content="ACK" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="PshLabel" Content="PSH" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="RstLabel" Content="RST" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="SynLabel" Content="SYN" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" />
+            <Label x:Name="FinLabel" Content="FIN" Grid.Column="5" Grid.Row="0" HorizontalAlignment="Center" />
+            <CheckBox x:Name="UrgOut" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="AckOut" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="PshOut" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="RstOut" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="SynOut" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox x:Name="FinOut" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
         <Button x:Name="GenerateButton" Content="Создать TCP пакет" Grid.Row="3" Width="150" HorizontalAlignment="Center" Click="GenerateButton_Click" />
         <Label x:Name="ResultLabel" Content="Результат генерации пакета TCP протокола" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
