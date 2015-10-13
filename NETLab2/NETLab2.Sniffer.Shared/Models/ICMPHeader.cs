@@ -12,8 +12,8 @@ namespace NETLab2.Sniffer.Shared.Models
         //Поля заголовков ICMP пакета
         private byte usType;          //Восемь битов тип сообщения
         private byte usCode;          //Восемь битов код сообщения
-        private ushort usChecksum = 555;  //Шестнадцать два бита для контрольной суммы
-        private ushort usPointer;
+        private short sChecksum = 555;  //Шестнадцать два бита для контрольной суммы
+        private uint uiInternetHeader = 555;     //Тридцать два бита данных
 
         public ICMPHeader(byte[] byBuffer, int nReceived)
         {
@@ -24,7 +24,10 @@ namespace NETLab2.Sniffer.Shared.Models
 
                 usType = binaryReader.ReadByte();
                 usCode = binaryReader.ReadByte();
-                usChecksum = (ushort)IPAddress.NetworkToHostOrder(binaryReader.ReadInt16());
+                sChecksum = (short)IPAddress.NetworkToHostOrder(binaryReader.ReadInt16());
+                binaryReader.ReadInt32();
+                uiInternetHeader = (uint)IPAddress.NetworkToHostOrder(binaryReader.ReadInt32());
+
             }
             catch (Exception ex)
             {
@@ -92,6 +95,19 @@ namespace NETLab2.Sniffer.Shared.Models
                         return "Неизвестно";
                 }
             }
+        }
+        public string Code
+        {
+            get { return usCode.ToString(); }
+        }
+        public string Checksum
+        {
+            get { return string.Format("0x{0:x2}", sChecksum); }
+        }
+
+        public string InternetHeader
+        {
+            get { return uiInternetHeader.ToString(); }
         }
     }
 }

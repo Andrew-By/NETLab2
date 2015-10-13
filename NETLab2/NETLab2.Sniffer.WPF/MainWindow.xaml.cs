@@ -52,6 +52,12 @@ namespace NETLab2.Sniffer.WPF
                 sniffer.CurrentInterface = sniffer.Interfaces[AdapterComboBox.SelectedIndex];
         }
 
+        private void ProtocolComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ProtocolCombobox.SelectedIndex != -1 && sniffer != null)
+                sniffer.FilterChanged(ProtocolCombobox.SelectedIndex);
+        }
+
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (PacketsDataGrid.SelectedIndex != -1)
