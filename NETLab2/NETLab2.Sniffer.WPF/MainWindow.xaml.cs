@@ -22,23 +22,40 @@ namespace NETLab2.Sniffer.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool SnifferIsRunning = false;
         Shared.ViewModels.Sniffer sniffer;
         public MainWindow()
         {
             InitializeComponent();
             sniffer = new Shared.ViewModels.Sniffer();
-            this.DataContext = sniffer;
+            DataContext = sniffer;
         }
 
         private void StartStopButton_Click(object sender, RoutedEventArgs e)
         {
-            sniffer.Start();
+            if (SnifferIsRunning)
+            {
+                sniffer.Stop();
+                StartStopButton.Content = "Начать";
+            }
+            else
+            {
+                sniffer.Start();
+                StartStopButton.Content = "Остановить";
+            }
+            SnifferIsRunning = !SnifferIsRunning;
         }
 
         private void AdapterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (AdapterComboBox.SelectedIndex != -1)
                 sniffer.CurrentInterface = sniffer.Interfaces[AdapterComboBox.SelectedIndex];
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PacketsDataGrid.SelectedIndex != -1)
+                sniffer.SelectPacket(PacketsDataGrid.SelectedIndex);
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using NETLab2.Sniffer.Shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Windows.Threading;
 
@@ -33,10 +35,25 @@ namespace NETLab2.Sniffer.Shared.ViewModels
             get { return _interfaces; }
         }
 
-        private ObservableCollection<Packet> _packets = new ObservableCollection<Packet>();
-        public ObservableCollection<Packet> Packets
+        private ObservableCollection<IPHeader> _packets = new ObservableCollection<IPHeader>();
+        public ObservableCollection<IPHeader> Packets
         {
             get { return _packets; }
+        }
+
+        private Dictionary<string, string> _currentPacket;
+        public Dictionary<string, string> CurrentPacket
+        {
+            get { return _currentPacket; }
+            set
+            {
+                if (value != _currentPacket)
+                {
+                    _currentPacket = value;
+                    NotifyPropertyChanged("CurrentPacket");
+                }
+
+            }
         }
 
         public Sniffer()
@@ -52,7 +69,6 @@ namespace NETLab2.Sniffer.Shared.ViewModels
                 }
             }
 
-
         }
 
         public void Start()
@@ -61,11 +77,12 @@ namespace NETLab2.Sniffer.Shared.ViewModels
             _socket.OnPackageReceived += _socket_OnPackageReceived;
         }
 
-        private void _socket_OnPackageReceived(object sender, Models.IPHeader e)
+        private void _socket_OnPackageReceived(object sender, IPHeader e)
         {
             System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                Packets.Add(new Packet(e.Identification, DateTime.Now.ToLongTimeString(), e.SourceAddress.ToString(), e.DestinationAddress.ToString(), e.ProtocolType.ToString()));
+                //Packets.Add(new Packet(e.Identification, DateTime.Now.ToLongTimeString(), e.SourceAddress.ToString(), e.DestinationAddress.ToString(), e.ProtocolType.ToString()));
+                Packets.Add(e);
             }));
         }
 
@@ -75,6 +92,37 @@ namespace NETLab2.Sniffer.Shared.ViewModels
             {
                 _socket.Close();
                 _socket.OnPackageReceived -= _socket_OnPackageReceived;
+            }
+        }
+
+        public void SelectPacket(int id)
+        {
+            CurrentPacket = new Dictionary<string, string>();
+            PropertyInfo[] properties = null;
+            object header = null;
+            switch (Packets[id].ProtocolType)
+            {
+                case Protocol.TCP:
+                    TCPHeader tcpHeader = new TCPHeader(Packets[id].Data, Packets[id].MessageLength);
+                    properties = tcpHeader.GetType().GetProperties();
+                    header = tcpHeader;
+                    break;
+                case Protocol.UDP:
+                    UDPHeader udpHeader = new UDPHeader(Packets[id].Data, Packets[id].MessageLength);
+                    properties = udpHeader.GetType().GetProperties();
+                    header = udpHeader;
+                    break;
+                case Protocol.ICMP:
+                    ICMPHeader icmpHeader = new ICMPHeader(Packets[id].Data, Packets[id].MessageLength);
+                    properties = icmpHeader.GetType().GetProperties();
+                    header = icmpHeader;
+                    break;
+            }
+
+            if(properties!=null)
+            {
+                foreach (PropertyInfo pi in properties)
+                    CurrentPacket.Add(pi.Name, pi.GetValue(header).ToString());
             }
         }
 
