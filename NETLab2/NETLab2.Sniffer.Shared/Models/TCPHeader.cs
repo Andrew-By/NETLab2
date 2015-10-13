@@ -8,20 +8,20 @@ namespace NETLab2.Sniffer.Shared.Models
     public class TCPHeader
     {
         //Поля заголовков TCP пакета
-        private ushort usSourcePort;              //Шестнадцать битов порта источника
-        private ushort usDestinationPort;         //Шестнадцать битов порта назначения
-        private uint uiSequenceNumber = 555;          //Тридцать два бита номера последовательности
-        private uint uiAcknowledgementNumber = 555;   //Тридцать два бита подтверждения
+        private ushort usSourcePort;                    //Шестнадцать битов порта источника
+        private ushort usDestinationPort;               //Шестнадцать битов порта назначения
+        private uint uiSequenceNumber = 555;            //Тридцать два бита номера последовательности
+        private uint uiAcknowledgementNumber = 555;     //Тридцать два бита подтверждения
         private ushort usDataOffsetAndFlags = 555;      //Шестнадцать битов флагов и смещения
         private ushort usWindow = 555;                  //Шестнадцать битов на размер окна
-        private short sChecksum = 555;                 //Шестнадцать битов для контрольной суммы
-                                                       //(может иметь отрицательное значение)
-        private ushort usUrgentPointer;           //Шестнадцать битов для указателя срочности
+        private short sChecksum = 555;                  //Шестнадцать битов для контрольной суммы
+                                                        //(может иметь отрицательное значение)
+        private ushort usUrgentPointer;                 //Шестнадцать битов для указателя срочности
         //Конец заголовка TCP пакета
 
-        private byte byHeaderLength;            //Длиина заголовка
-        private ushort usMessageLength;           //Длина передаваемых данных
-        private byte[] byTCPData = new byte[4096];//Данные TCP пакета
+        private byte byHeaderLength;                //Длиина заголовка
+        private ushort usMessageLength;             //Длина передаваемых данных
+        private byte[] byTCPData = new byte[4096];  //Данные TCP пакета
 
         public TCPHeader(byte[] byBuffer, int nReceived)
         {

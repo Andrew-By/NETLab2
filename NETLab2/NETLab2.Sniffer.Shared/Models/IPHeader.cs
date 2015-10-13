@@ -62,11 +62,11 @@ namespace NETLab2.Sniffer.Shared.Models
             get
             {
                 if ((byVersionAndHeaderLength >> 4) == 4)
-                    return "IP v4";
+                    return "IPv4";
                 else if ((byVersionAndHeaderLength >> 4) == 6)
-                    return "IP v6";
+                    return "IPv6";
                 else
-                    return "Unknown";
+                    return "Неизвестно";
             }
         }
 
@@ -119,12 +119,17 @@ namespace NETLab2.Sniffer.Shared.Models
         {
             get
             {
-                if (byProtocol == 6)
-                    return Protocol.TCP;
-                else if (byProtocol == 17)
-                    return Protocol.UDP;
-                else
-                    return Protocol.Unknown;
+                switch (byProtocol)
+                {
+                    case 1:
+                        return Protocol.ICMP;
+                    case 6:
+                        return Protocol.TCP;
+                    case 17:
+                        return Protocol.UDP;
+                    default:
+                        return Protocol.Unknown;
+                }
             }
         }
 

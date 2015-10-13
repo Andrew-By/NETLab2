@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -19,6 +20,7 @@
             <ComboBox Name="AdapterComboBox" Margin="5" ItemsSource="{Binding Interfaces}" SelectionChanged="AdapterComboBox_SelectionChanged" />
             <Button Name="StartStopButton" Margin="5" Width="100" Grid.Column="1" Click="StartStopButton_Click">Начать</Button>
         </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Packets}" />
+        <DataGrid Name="PacketsDataGrid" Grid.Row="1" ItemsSource="{Binding Packets}" SelectionChanged="DataGrid_SelectionChanged" />
+        <DataGrid Grid.Row="2" ItemsSource="{Binding CurrentPacket}" />
     </Grid>
 </Window>
