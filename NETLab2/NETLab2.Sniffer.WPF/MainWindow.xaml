@@ -16,11 +16,22 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ComboBox Name="AdapterComboBox" Margin="5" ItemsSource="{Binding Interfaces}" SelectionChanged="AdapterComboBox_SelectionChanged" />
-            <Button Name="StartStopButton" Margin="5" Width="100" Grid.Column="1" Click="StartStopButton_Click">Начать</Button>
+            <ComboBox Name="ProtocolCombobox" Margin="5" Grid.Column="1" SelectionChanged="ProtocolComboBox_SelectionChanged">
+                <ComboBox.Items>
+                    <ComboBoxItem Selector.IsSelected="True">Все протоколы</ComboBoxItem>
+                    <ComboBoxItem>ICMP</ComboBoxItem>
+                    <ComboBoxItem>TCP</ComboBoxItem>
+                    <ComboBoxItem>UDP</ComboBoxItem>
+                </ComboBox.Items>
+            </ComboBox>
+            <Button Name="StartStopButton" Margin="5" Width="100" Grid.Column="2" Click="StartStopButton_Click">Начать</Button>
+            <Button Name="ClearButton" Margin="5" Width="100" Grid.Column="3" Click="StartStopButton_Click">Очистить</Button>
         </Grid>
-        <DataGrid Name="PacketsDataGrid" Grid.Row="1" ItemsSource="{Binding Packets}" SelectionChanged="DataGrid_SelectionChanged" />
+        <DataGrid Name="PacketsDataGrid" Grid.Row="1" ItemsSource="{Binding PacketsView.View}" SelectionChanged="DataGrid_SelectionChanged" />
         <DataGrid Grid.Row="2" ItemsSource="{Binding CurrentPacket}" />
     </Grid>
 </Window>

@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace NETLab2.Sniffer.Shared.ViewModels
@@ -35,10 +37,19 @@ namespace NETLab2.Sniffer.Shared.ViewModels
             get { return _interfaces; }
         }
 
+        private bool _filterIsOn;
+        private Protocol _filter;
+
         private ObservableCollection<IPHeader> _packets = new ObservableCollection<IPHeader>();
         public ObservableCollection<IPHeader> Packets
         {
             get { return _packets; }
+        }
+
+        private CollectionViewSource _packetsView = new CollectionViewSource();
+        public CollectionViewSource PacketsView
+        {
+            get { return _packetsView; }
         }
 
         private Dictionary<string, string> _currentPacket;
@@ -59,6 +70,8 @@ namespace NETLab2.Sniffer.Shared.ViewModels
         public Sniffer()
         {
             string strIP = null;
+            PacketsView.Source = Packets;
+            PacketsView.Filter += PacketsView_Filter;
             IPHostEntry HostEntry = Dns.GetHostEntry((Dns.GetHostName()));
             if (HostEntry.AddressList.Length > 0)
             {
@@ -95,6 +108,26 @@ namespace NETLab2.Sniffer.Shared.ViewModels
             }
         }
 
+        public void FilterChanged(int id)
+        {
+            if (id > 0)
+            {
+                _filter = (Protocol)id;
+                _filterIsOn = true;
+            }
+            else
+                _filterIsOn = false;
+            NotifyPropertyChanged("PacketsView");
+        }
+
+        private void PacketsView_Filter(object sender, FilterEventArgs e)
+        {
+            if (_filterIsOn)
+                e.Accepted = ((IPHeader)e.Item).ProtocolType == _filter;
+            else
+                e.Accepted = true;
+        }
+
         public void SelectPacket(int id)
         {
             CurrentPacket = new Dictionary<string, string>();
@@ -119,7 +152,7 @@ namespace NETLab2.Sniffer.Shared.ViewModels
                     break;
             }
 
-            if(properties!=null)
+            if (properties != null)
             {
                 foreach (PropertyInfo pi in properties)
                     CurrentPacket.Add(pi.Name, pi.GetValue(header).ToString());
