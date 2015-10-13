@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -164,7 +165,7 @@ namespace NETLab2.TCPGenerator.Shared
                 _seq_n = (uint)rand.Next();
             if (fin == true)
                 _flags |= (byte)TcpFlags.FIN;
-            _win = (ushort)data.Length;
+            _win = 0;
             _offset = (byte)(0xF0 & (5 << 4));
             rs_pseudo_crc(data, data.Length, _src_port, _dst_port, _offset + data.Length, 6);
         }
@@ -248,15 +249,19 @@ namespace NETLab2.TCPGenerator.Shared
             _crc = rs_crc(buffer, full_length);
         }
 
-        public void Send(Socket socket, string data, int data_length, string receiver_ip, string dst_port_raw)
+        public override string ToString()
         {
-            List<byte> buffer = new List<byte>(Utils.ObjectToByteArray(this));
-            foreach (var ch in data)
-                buffer.Add((byte)ch);
+            return "Порт источника: " + _src_port + "\nПорт получателя: " + _dst_port + "\nНомер очереди: " + _seq_n 
+                + "\nНомер подтверждения: " + _ack_n + "\nСдвиг данных (длиной в 32-битные слова): " + (_offset >> 4) + "\nФлаги: " + _flags 
+                + "\nРазмер окна (байты): " + _win + "\nКонтрольная сумма: " + _crc + "\nУказатель срочности: " + _urgent_pointer;
+        }
+
+        public void Send(Socket socket, string data, string receiver_ip, string dst_port_raw)
+        {
             try
             {
                 EndPoint remote = (EndPoint)(new IPEndPoint(IPAddress.Parse(receiver_ip), int.Parse(dst_port_raw)));
-                socket.SendTo(buffer.ToArray(), remote);
+                socket.SendTo(this.SerializeTcpPacket(data), remote);
             }
             catch (Exception ex)
             {
@@ -264,41 +269,26 @@ namespace NETLab2.TCPGenerator.Shared
             }
         }
 
-        /// <summary>
-        /// Deserialization constructor
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="ctxt"></param>
-        public TCPHeader(SerializationInfo info, StreamingContext ctxt)
+        public byte[] SerializeTcpPacket(string data)
         {
-            //Get the values from info and assign them to the appropriate properties
-            _src_port = (ushort)info.GetValue("SrcPort", typeof(ushort));
-            _dst_port = (ushort)info.GetValue("DstPort", typeof(ushort));
-            _seq_n = (uint)info.GetValue("SeqN", typeof(uint));
-            _ack_n = (uint)info.GetValue("AckN", typeof(uint));
-            _offset = (byte)info.GetValue("Offset", typeof(byte));
-            _flags = (byte)info.GetValue("Flags", typeof(byte));
-            _win = (ushort)info.GetValue("Win", typeof(ushort));
-            _crc = (ushort)info.GetValue("Crc", typeof(ushort));
-            _urgent_pointer = (ushort)info.GetValue("UrgentPointer", typeof(ushort));
-        }
-
-        /// <summary>
-        /// Serialization function
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="ctxt"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
-        {
-            info.AddValue("SrcPort", _src_port);
-            info.AddValue("DstPort", _dst_port);
-            info.AddValue("SeqN", _seq_n);
-            info.AddValue("AckN", _ack_n);
-            info.AddValue("Offset", _offset);
-            info.AddValue("Flags", _flags);
-            info.AddValue("Win", _win);
-            info.AddValue("Crc", _crc);
-            info.AddValue("UrgentPointer", _urgent_pointer);
+            using (MemoryStream m = new MemoryStream())
+            {
+                using (BinaryWriter writer = new BinaryWriter(m))
+                {
+                    writer.Write(_src_port);
+                    writer.Write(_dst_port);
+                    writer.Write(_seq_n);
+                    writer.Write(_ack_n);
+                    writer.Write(_offset);
+                    writer.Write(_flags);
+                    writer.Write(_win);
+                    writer.Write(_crc);
+                    writer.Write(_urgent_pointer);
+                    if (data.Length > 0)
+                        writer.Write(data);
+                }
+                return m.ToArray();
+            }
         }
     }
 }

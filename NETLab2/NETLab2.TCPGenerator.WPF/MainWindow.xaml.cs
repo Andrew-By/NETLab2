@@ -46,13 +46,14 @@ namespace NETLab2.TCPGenerator.WPF
             AckNOut.Text = _header.AckN.ToString();
             WindowOut.Text = _header.Win.ToString();
             CrcOut.Text = _header.Crc.ToString();
+            Console.WriteLine("Создан Tcp пакет:\n" + _header.ToString() + "\n");
         }
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                _header.Send(_socket, Message.Text, Message.Text.Length, ReceiverAddressBox.Text, ReceiverPortBox.Text);
+                _header.Send(_socket, Message.Text, ReceiverAddressBox.Text, ReceiverPortBox.Text);
             }
             catch (Exception ex)
             {
