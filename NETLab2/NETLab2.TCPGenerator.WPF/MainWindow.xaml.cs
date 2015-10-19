@@ -13,6 +13,7 @@ namespace NETLab2.TCPGenerator.WPF
     public partial class MainWindow : Window
     {
         private TCPHeader _header;
+        private IPHeader _ip_header;
         private Socket _socket;
         public MainWindow()
         {
@@ -33,6 +34,7 @@ namespace NETLab2.TCPGenerator.WPF
             try
             {
                 _socket = new Socket(AddressFamily.InterNetwork, SocketType.Raw, ProtocolType.IP);
+                _socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.HeaderIncluded, false);
                 _header = new TCPHeader(SenderPortBox.Text, ReceiverPortBox.Text, UrgOut.IsChecked, AckOut.IsChecked,
                     PshOut.IsChecked, RstOut.IsChecked, SynOut.IsChecked, FinOut.IsChecked, Message.Text);
             }
@@ -53,7 +55,7 @@ namespace NETLab2.TCPGenerator.WPF
         {
             try
             {
-                _header.Send(_socket, Message.Text, ReceiverAddressBox.Text, ReceiverPortBox.Text);
+                _ip_header = new IPHeader(_socket, _header.SerializeTcpPacket(Message.Text), SenderAddressBox.Text, ReceiverAddressBox.Text, ReceiverPortBox.Text);
             }
             catch (Exception ex)
             {
