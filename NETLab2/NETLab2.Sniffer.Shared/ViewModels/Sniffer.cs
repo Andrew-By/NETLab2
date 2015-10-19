@@ -3,14 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Threading;
-using CsvHelper;
 
 namespace NETLab2.Sniffer.Shared.ViewModels
 {
@@ -159,20 +157,6 @@ namespace NETLab2.Sniffer.Shared.ViewModels
                 foreach (PropertyInfo pi in properties)
                     CurrentPacket.Add(pi.Name, pi.GetValue(header).ToString());
             }
-        }
-
-        public void Clear()
-        {
-            Packets.Clear();
-        }
-
-        public void Export(string fileName)
-        {
-            StreamWriter text = new StreamWriter(fileName, false, Encoding.GetEncoding("Windows-1251"));
-            var csv = new CsvWriter(text);
-            csv.Configuration.Delimiter = ";";
-            csv.WriteRecords(Packets);
-            text.Close();
         }
 
         #region INotify

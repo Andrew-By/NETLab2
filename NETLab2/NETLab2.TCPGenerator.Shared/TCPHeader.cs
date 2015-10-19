@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NETLab2.TCPGenerator.Shared
@@ -155,14 +154,15 @@ namespace NETLab2.TCPGenerator.Shared
                 _flags |= (byte)TcpFlags.ACK;
                 _ack_n = (uint)rand.Next();
             }
+            if (ack == false)
+                _ack_n = 1;
             if (psh == true)
                 _flags |= (byte)TcpFlags.PSH;
             if (rst == true)
                 _flags |= (byte)TcpFlags.RST;
             if (syn == true)
                 _flags |= (byte)TcpFlags.SYN;
-            if (syn != null)
-                _seq_n = (uint)rand.Next();
+            _seq_n = (uint)1000;
             if (fin == true)
                 _flags |= (byte)TcpFlags.FIN;
             _win = 0;
@@ -256,34 +256,21 @@ namespace NETLab2.TCPGenerator.Shared
                 + "\nРазмер окна (байты): " + _win + "\nКонтрольная сумма: " + _crc + "\nУказатель срочности: " + _urgent_pointer;
         }
 
-        public void Send(Socket socket, string data, string receiver_ip, string dst_port_raw)
-        {
-            try
-            {
-                EndPoint remote = (EndPoint)(new IPEndPoint(IPAddress.Parse(receiver_ip), int.Parse(dst_port_raw)));
-                socket.SendTo(this.SerializeTcpPacket(data), remote);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public byte[] SerializeTcpPacket(string data)
         {
             using (MemoryStream m = new MemoryStream())
             {
                 using (BinaryWriter writer = new BinaryWriter(m))
                 {
-                    writer.Write(_src_port);
-                    writer.Write(_dst_port);
-                    writer.Write(_seq_n);
-                    writer.Write(_ack_n);
+                    writer.Write(IPAddress.HostToNetworkOrder((Int16)_src_port));
+                    writer.Write(IPAddress.HostToNetworkOrder((Int16)_dst_port));
+                    writer.Write(IPAddress.HostToNetworkOrder((Int32)_seq_n));
+                    writer.Write(IPAddress.HostToNetworkOrder((Int32)_ack_n));
                     writer.Write(_offset);
                     writer.Write(_flags);
-                    writer.Write(_win);
-                    writer.Write(_crc);
-                    writer.Write(_urgent_pointer);
+                    writer.Write(IPAddress.HostToNetworkOrder((Int16)_win));
+                    writer.Write(IPAddress.HostToNetworkOrder((Int16)_crc));
+                    writer.Write(IPAddress.HostToNetworkOrder((Int16)_urgent_pointer));
                     if (data.Length > 0)
                         writer.Write(data);
                 }
