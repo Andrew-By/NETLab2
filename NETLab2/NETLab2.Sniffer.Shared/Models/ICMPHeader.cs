@@ -44,23 +44,24 @@ namespace NETLab2.Sniffer.Shared.Models
                     case 0:
                         return "Эхо-ответ";
                     case 3:
-                        switch (usCode)
-                        {
-                            case 0:
-                                return "Сеть недоступна";
-                            case 1:
-                                return "Узел недоступен";
-                            case 2:
-                                return "Протокол недоступен";
-                            case 3:
-                                return "Порт недоступен";
-                            case 4:
-                                return "Необходима фрагментация";
-                            case 5:
-                                return "Маршрут не найден";
-                            default:
-                                return "Неизвестно";
-                        }
+                        //switch (usCode)
+                        //{
+                        //    case 0:
+                        //        return "Сеть недоступна";
+                        //    case 1:
+                        //        return "Узел недоступен";
+                        //    case 2:
+                        //        return "Протокол недоступен";
+                        //    case 3:
+                        //        return "Порт недоступен";
+                        //    case 4:
+                        //        return "Необходима фрагментация";
+                        //    case 5:
+                        //        return "Маршрут не найден";
+                        //    default:
+                        //        return "Неизвестно";
+                        //}
+                        return "Узел недоступен";
                     case 4:
                         return "Превышен буфер очереди датаграммы";
                     case 5:
