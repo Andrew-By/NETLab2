@@ -66,7 +66,6 @@
             <CheckBox x:Name="SynOut" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <CheckBox x:Name="FinOut" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
-        <Button x:Name="GenerateButton" Content="Создать TCP пакет" Grid.Row="3" Width="150" HorizontalAlignment="Center" Click="GenerateButton_Click" />
         <Label x:Name="ResultLabel" Content="Результат генерации пакета TCP протокола" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>
@@ -88,6 +87,6 @@
             <TextBox x:Name="WindowOut" Height="20" Grid.Column="2" Grid.Row="1" IsEnabled="False"/>
             <TextBox x:Name="CrcOut" Height="20" Grid.Column="3" Grid.Row="1" IsEnabled="False"/>
         </Grid>
-        <Button x:Name="SendButton" Content="Отправить TCP пакет" Grid.Row="6" Width="150" HorizontalAlignment="Center" IsEnabled="False" Click="SendButton_Click" />
+        <Button x:Name="SendButton" Content="Отправить TCP пакет" Grid.Row="6" Width="150" HorizontalAlignment="Center" Click="SendButton_Click" />
     </Grid>
 </Window>
