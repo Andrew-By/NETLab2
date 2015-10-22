@@ -49,7 +49,7 @@ namespace NETLab2.TCPGenerator.WPF
             WindowOut.Text = tcpPacket.Win.ToString();
             Console.WriteLine("Создан Tcp пакет:\n" + tcpPacket.ToString() + "\n");
 
-            payLoad = new byte[Message.Text.Length];
+            payLoad = new byte[Message.Text.Length * sizeof(char)];
             Buffer.BlockCopy(Message.Text.ToCharArray(), 0, payLoad, 0, payLoad.Length);
 
             ProtocolHeader.Ipv4Header ipv4Packet = new ProtocolHeader.Ipv4Header();
