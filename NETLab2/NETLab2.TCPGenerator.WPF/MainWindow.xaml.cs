@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Windows;
 
 namespace NETLab2.TCPGenerator.WPF
@@ -30,7 +31,7 @@ namespace NETLab2.TCPGenerator.WPF
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-            byte[] builtPacket, payLoad;
+            byte[] builtPacket;
             ProtocolHeader.TcpHeader tcpPacket;
             ArrayList headerList = new ArrayList();
             try
@@ -44,13 +45,7 @@ namespace NETLab2.TCPGenerator.WPF
                 return;
             }
             SendButton.IsEnabled = true;
-            SeqNOut.Text = tcpPacket.SeqN.ToString();
-            AckNOut.Text = tcpPacket.AckN.ToString();
-            WindowOut.Text = tcpPacket.Win.ToString();
             Console.WriteLine("Создан Tcp пакет:\n" + tcpPacket.ToString() + "\n");
-
-            payLoad = new byte[Message.Text.Length * sizeof(char)];
-            Buffer.BlockCopy(Message.Text.ToCharArray(), 0, payLoad, 0, payLoad.Length);
 
             ProtocolHeader.Ipv4Header ipv4Packet = new ProtocolHeader.Ipv4Header();
             try
@@ -77,12 +72,17 @@ namespace NETLab2.TCPGenerator.WPF
             Console.WriteLine("Сборка пакета...");
             headerList.Add(ipv4Packet);
             headerList.Add(tcpPacket);
-            builtPacket = tcpPacket.BuildPacket(headerList, payLoad);
-            CrcOut.Text = tcpPacket.Crc.ToString();
+            builtPacket = tcpPacket.BuildPacket(headerList, Encoding.Unicode.GetBytes(Message.Text));
+
+            SeqNOut.Text = ((uint)IPAddress.NetworkToHostOrder((int)tcpPacket.SeqN)).ToString();
+            AckNOut.Text = ((uint)IPAddress.NetworkToHostOrder((int)tcpPacket.AckN)).ToString();
+            WindowOut.Text = ((ushort)IPAddress.NetworkToHostOrder((short)tcpPacket.Win)).ToString();
+            CrcOut.Text = ((ushort)IPAddress.NetworkToHostOrder((short)tcpPacket.Crc)).ToString();
 
             rawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Raw, ProtocolType.Raw);
             Console.WriteLine((EndPoint)new IPEndPoint(IPAddress.Parse(ReceiverAddressBox.Text), UInt16.Parse(ReceiverPortBox.Text)));
-            rawSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.HeaderIncluded, 1);
+            //rawSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.HeaderIncluded, 1);
+            rawSocket.Bind(new IPEndPoint(IPAddress.Any, 0));
             try
             {
                 Console.WriteLine("Отправка пакета...");
