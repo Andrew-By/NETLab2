@@ -49,7 +49,7 @@ namespace NETLab2.TCPGenerator.WPF
             WindowOut.Text = tcpPacket.Win.ToString();
             Console.WriteLine("Создан Tcp пакет:\n" + tcpPacket.ToString() + "\n");
 
-            payLoad = new byte[Message.Text.Length * sizeof(char)];
+            payLoad = new byte[Message.Text.Length];
             Buffer.BlockCopy(Message.Text.ToCharArray(), 0, payLoad, 0, payLoad.Length);
 
             ProtocolHeader.Ipv4Header ipv4Packet = new ProtocolHeader.Ipv4Header();
@@ -60,6 +60,7 @@ namespace NETLab2.TCPGenerator.WPF
                 ipv4Packet.Protocol = (byte)ProtocolType.Tcp;
                 ipv4Packet.Ttl = 128;
                 ipv4Packet.Offset = 0;
+                ipv4Packet.Id = (ushort)new Random().Next(1, 1000);
                 ipv4Packet.Length = (byte)ProtocolHeader.Ipv4Header.Ipv4HeaderLength;
                 ipv4Packet.TotalLength = (ushort)Convert.ToUInt16(ProtocolHeader.Ipv4Header.Ipv4HeaderLength + ProtocolHeader.Ipv4Header.Ipv4HeaderLength + Message.Text.Length);
                 ipv4Packet.SourceAddress = IPAddress.Parse(SenderAddressBox.Text);
@@ -79,8 +80,7 @@ namespace NETLab2.TCPGenerator.WPF
             builtPacket = tcpPacket.BuildPacket(headerList, payLoad);
             CrcOut.Text = tcpPacket.Crc.ToString();
 
-            rawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Raw, ProtocolType.Unspecified);
-            //rawSocket.Bind(new IPEndPoint(IPAddress.Parse(SenderAddressBox.Text), 0));
+            rawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Raw, ProtocolType.Raw);
             Console.WriteLine((EndPoint)new IPEndPoint(IPAddress.Parse(ReceiverAddressBox.Text), UInt16.Parse(ReceiverPortBox.Text)));
             rawSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.HeaderIncluded, 1);
             try
