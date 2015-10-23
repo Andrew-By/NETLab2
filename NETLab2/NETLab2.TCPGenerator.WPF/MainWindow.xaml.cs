@@ -36,7 +36,7 @@ namespace NETLab2.TCPGenerator.WPF
             ArrayList headerList = new ArrayList();
             try
             {
-                tcpPacket = new ProtocolHeader.TcpHeader(SenderPortBox.Text, ReceiverPortBox.Text, UrgOut.IsChecked, 
+                tcpPacket = new ProtocolHeader.TcpHeader(SenderPortBox.Text, ReceiverPortBox.Text, UrgOut.IsChecked,
                     AckOut.IsChecked, PshOut.IsChecked, RstOut.IsChecked, SynOut.IsChecked, FinOut.IsChecked, Message.Text);
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace NETLab2.TCPGenerator.WPF
                 ipv4Packet.Offset = 0;
                 ipv4Packet.Id = (ushort)new Random().Next(1, 1000);
                 ipv4Packet.Length = (byte)ProtocolHeader.Ipv4Header.Ipv4HeaderLength;
-                ipv4Packet.TotalLength = (ushort)Convert.ToUInt16(ProtocolHeader.Ipv4Header.Ipv4HeaderLength + ProtocolHeader.Ipv4Header.Ipv4HeaderLength + Message.Text.Length);
+                ipv4Packet.TotalLength = (ushort)Convert.ToUInt16(ProtocolHeader.Ipv4Header.Ipv4HeaderLength + ProtocolHeader.Ipv4Header.Ipv4HeaderLength + Message.Text.Length * sizeof(char));
                 ipv4Packet.SourceAddress = IPAddress.Parse(SenderAddressBox.Text);
                 ipv4Packet.DestinationAddress = IPAddress.Parse(ReceiverAddressBox.Text);
             }
